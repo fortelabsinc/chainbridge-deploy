@@ -1,10 +1,10 @@
 SOL_URL=https://github.com/fortelabsinc/chainbridge-solidity
-#SOL_VERSION="v1.0.0"
-SOL_BRANCH="forte_bridge"
+SOL_VERSION="v1.0.0"
+#SOL_BRANCH="forte_bridge"
 
 fetch-contracts:
 	@echo " > \033[32mFetching chainbridge-solidity contracts... \033[0m "
-	git clone ${SOL_URL} && cd chainbridge-solidity && git checkout ${SOL_BRANCH}
+	git clone ${SOL_URL} && cd chainbridge-solidity && git checkout ${SOL_VERSION}
 
 compile:
 	cd chainbridge-solidity && npm install && npx truffle compile

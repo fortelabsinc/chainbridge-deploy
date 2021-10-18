@@ -48,7 +48,7 @@ const registerGenericResourceCmd = new Command("register-generic-resource")
 const setBurnCmd = new Command("set-burn")
     .description("Set a token contract as burnable in a handler")
     .option('--bridge <address>', 'Bridge contract address', constants.BRIDGE_ADDRESS)
-    .option('--handler <address>', 'ERC20 handler contract address', constants.ERC20_HANDLER_ADDRESS)
+    .option('--handler <address>', 'Handler contract address', constants.ERC20_HANDLER_ADDRESS)
     .option('--tokenContract <address>', `Token contract to be registered`, constants.ERC20_ADDRESS)
     .action(async function (args) {
         await setupParentArgs(args, args.parent.parent)
@@ -70,6 +70,34 @@ const queryIsBurnCmd = new Command("query-is-burn")
         const isBurn = await handlerInstance._burnList(args.tokenContract)
         log(args, `Getting if contract ${args.tokenContract} is registered as burnable on handler ${args.handler}: ${isBurn}`)
     })
+
+const setLockMintUnlockCmd = new Command("set-lock-mint-unlock")
+    .description("Set a token as lock mint unlockable in a handler")
+    .option('--bridge <address>', 'Bridge contract address', constants.BRIDGE_ADDRESS)
+    .option('--handler <address>', 'Handler contract address', constants.ERC20_HANDLER_ADDRESS)
+    .option('--tokenContract <address>', `Token contract to be registered`, constants.ERC20_ADDRESS)
+    .action(async function (args) {
+        await setupParentArgs(args, args.parent.parent)
+        const bridgeInstance = new ethers.Contract(args.bridge, constants.ContractABIs.Bridge.abi, args.wallet);
+
+        log(args,`Setting contract ${args.tokenContract} as burnable on handler ${args.handler}`);
+        const tx = await bridgeInstance.adminSetLockMintUnlockable(args.handler, args.tokenContract, { gasPrice: args.gasPrice, gasLimit: args.gasLimit});
+        await waitForTx(args.provider, tx.hash)
+    })
+
+
+const queryIsLockMintUnlockCmd = new Command("query-is-lock-mint-unlock")
+    .description("Get whether the token address is registered as lockable/mintable/unlockable in a handler")
+    .option('--handler <address>', 'Handler contract address', constants.ERC20_HANDLER_ADDRESS)
+    .option('--tokenContract <address>', 'Token contract being queried if it is burnable', constants.ERC20_ADDRESS)
+    .action(async function (args) {
+        await setupParentArgs(args, args.parent.parent)
+
+        const handlerInstance = new ethers.Contract(args.handler, constants.ContractABIs.HandlerHelpers.abi, args.wallet)
+        const isBurn = await handlerInstance._lockMintUnlockList(args.tokenContract)
+        log(args, `Getting if contract ${args.tokenContract} is registered as lock/mint/unlockable on handler ${args.handler}: ${isBurn}`)
+    })
+
 
 const cancelProposalCmd = new Command("cancel-proposal")
     .description("Cancel a proposal that has passed the expiry threshold")
@@ -119,6 +147,8 @@ bridgeCmd.addCommand(registerResourceCmd)
 bridgeCmd.addCommand(registerGenericResourceCmd)
 bridgeCmd.addCommand(setBurnCmd)
 bridgeCmd.addCommand(queryIsBurnCmd)
+bridgeCmd.addCommand(setLockMintUnlockCmd)
+bridgeCmd.addCommand(queryIsLockMintUnlockCmd)
 bridgeCmd.addCommand(cancelProposalCmd)
 bridgeCmd.addCommand(queryProposalCmd)
 bridgeCmd.addCommand(queryResourceId)

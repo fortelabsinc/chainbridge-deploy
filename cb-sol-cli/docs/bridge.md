@@ -3,6 +3,7 @@
 - [`register-resource`](#register-resource)
 - [`register-generic-resource`](#register-generic-resource)
 - [`set-burn`](#set-burn)
+- [`set-lock-mint-unlock`](#set-lock-mint-unlock)
 - [`cancel-proposal`](#cancel-proposal)
 - [`query-proposal`](#query-proposal)
 - [`query-resource`](#query-resouce)
@@ -41,6 +42,16 @@ Set a token contract as mintable/burnable in a handler.
   --handler <address>        ERC20 handler contract address
   --tokenContract <address>  Token contract to be registered
 ```
+
+## `set-lock-mint-unlock`
+Set a token contract as lockable/mintable/unlockable in a handler.
+
+```
+  --bridge <address>         Bridge contract address
+  --handler <address>        ERC20 handler contract address
+  --tokenContract <address>  Token contract to be registered
+```
+
 
 ## `cancel-proposal`
 Cancels an expired proposal.

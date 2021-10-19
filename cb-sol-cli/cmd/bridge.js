@@ -80,7 +80,7 @@ const setLockMintUnlockCmd = new Command("set-lock-mint-unlock")
         await setupParentArgs(args, args.parent.parent)
         const bridgeInstance = new ethers.Contract(args.bridge, constants.ContractABIs.Bridge.abi, args.wallet);
 
-        log(args,`Setting contract ${args.tokenContract} as burnable on handler ${args.handler}`);
+        log(args,`Setting contract ${args.tokenContract} as token as lock mint unlockable on handler ${args.handler}`);
         const tx = await bridgeInstance.adminSetLockMintUnlockable(args.handler, args.tokenContract, { gasPrice: args.gasPrice, gasLimit: args.gasLimit});
         await waitForTx(args.provider, tx.hash)
     })
@@ -89,7 +89,7 @@ const setLockMintUnlockCmd = new Command("set-lock-mint-unlock")
 const queryIsLockMintUnlockCmd = new Command("query-is-lock-mint-unlock")
     .description("Get whether the token address is registered as lockable/mintable/unlockable in a handler")
     .option('--handler <address>', 'Handler contract address', constants.ERC20_HANDLER_ADDRESS)
-    .option('--tokenContract <address>', 'Token contract being queried if it is burnable', constants.ERC20_ADDRESS)
+    .option('--tokenContract <address>', 'Token contract being queried if it is lock mint unlockable', constants.ERC20_ADDRESS)
     .action(async function (args) {
         await setupParentArgs(args, args.parent.parent)
 

@@ -169,7 +169,7 @@ async function deployERC20(args) {
 async function deployERC20Handler(args) {
     if (!isValidAddress(args.bridgeAddress)) {
         console.log("ERC20Handler contract failed to deploy due to invalid bridge address")
-        return 
+        return
     }
     const factory = new ethers.ContractFactory(constants.ContractABIs.Erc20Handler.abi, constants.ContractABIs.Erc20Handler.bytecode, args.wallet);
     const contract = await factory.deploy(args.bridgeAddress, [], [], [], { gasPrice: args.gasPrice, gasLimit: args.gasLimit});
@@ -189,10 +189,10 @@ async function deployERC721(args) {
 async function deployERC721Handler(args) {
     if (!isValidAddress(args.bridgeAddress)) {
         console.log("ERC721Handler contract failed to deploy due to invalid bridge address")
-        return 
+        return
     }
     const factory = new ethers.ContractFactory(constants.ContractABIs.Erc721Handler.abi, constants.ContractABIs.Erc721Handler.bytecode, args.wallet);
-    const contract = await factory.deploy(args.bridgeAddress,[],[],[], { gasPrice: args.gasPrice, gasLimit: args.gasLimit});
+    const contract = await factory.deploy(args.bridgeAddress,[],[],[],[], { gasPrice: args.gasPrice, gasLimit: args.gasLimit});
     await contract.deployed();
     args.erc721HandlerContract = contract.address
     console.log("✓ ERC721Handler contract deployed")
@@ -201,7 +201,7 @@ async function deployERC721Handler(args) {
 async function deployGenericHandler(args) {
     if (!isValidAddress(args.bridgeAddress)) {
         console.log("GenericHandler contract failed to deploy due to invalid bridge address")
-        return 
+        return
     }
     const factory = new ethers.ContractFactory(constants.ContractABIs.GenericHandler.abi, constants.ContractABIs.GenericHandler.bytecode, args.wallet)
     const contract = await factory.deploy(args.bridgeAddress, [], [], [], [], { gasPrice: args.gasPrice, gasLimit: args.gasLimit})

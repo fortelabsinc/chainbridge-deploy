@@ -1,5 +1,5 @@
 SOL_URL=https://github.com/fortelabsinc/chainbridge-solidity
-SOL_VERSION="v1.0.0"
+SOL_VERSION="feature/lock-mint-unlock"
 #SOL_BRANCH="forte_bridge"
 
 fetch-contracts:

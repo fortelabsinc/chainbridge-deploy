@@ -21,6 +21,9 @@ const deployCmd = new Command("deploy")
     .option('--erc20Name <name>', 'Symbol for the erc20 contract', "")
     .option('--erc20Decimals <amount>', 'Decimals for erc20 contract', 18)
     .option('--erc721', 'Deploy erc721 contract')
+    .option('--erc721Symbol <symbol>', 'Name for the erc721 contract', "")
+    .option('--erc721Name <name>', 'Symbol for the erc721 contract', "")
+    .option('--erc721BaseUri <uri>', 'Base URI for the erc721 contract', "")
     .option('--centAsset', 'Deploy centrifuge asset contract')
     .option('--wetc', 'Deploy wrapped ETC Erc20 contract')
     .option('--config', 'Logs the configuration based on the deployment', false)
@@ -180,7 +183,7 @@ async function deployERC20Handler(args) {
 
 async function deployERC721(args) {
     const factory = new ethers.ContractFactory(constants.ContractABIs.Erc721Mintable.abi, constants.ContractABIs.Erc721Mintable.bytecode, args.wallet);
-    const contract = await factory.deploy("", "", "", { gasPrice: args.gasPrice, gasLimit: args.gasLimit});
+    const contract = await factory.deploy(args.erc721Name, args.erc721Symbol, args.erc721BaseUri, { gasPrice: args.gasPrice, gasLimit: args.gasLimit});
     await contract.deployed();
     args.erc721Contract = contract.address
     console.log("✓ ERC721 contract deployed")

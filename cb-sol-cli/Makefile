@@ -7,7 +7,7 @@ fetch-contracts:
 	git clone ${SOL_URL} && cd chainbridge-solidity && git checkout ${SOL_VERSION}
 
 compile:
-	cd chainbridge-solidity && npm install && npx truffle compile
+	cd chainbridge-solidity && npm install && npx truffle compile && ./scripts/create_bindings.sh
 
 install: clean fetch-contracts compile
 	@echo " > \033[32mInstalling cb-sol-cli... \033[0m "
